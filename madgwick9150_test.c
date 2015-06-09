@@ -1,3 +1,54 @@
+// I2C device class (I2Cdev) demonstration Arduino sketch for MPU9150
+// 1/4/2013 original by Jeff Rowberg <jeff@rowberg.net> at https://github.com/jrowberg/i2cdevlib
+//          modified by Aaron Weiss <aaron@sparkfun.com>
+//
+// Changelog:
+//     2011-10-07 - initial release
+//     2013-1-4 - added raw magnetometer output
+
+/* ============================================
+I2Cdev device library code is placed under the MIT license
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+===============================================
+*/
+
+
+
+
+//=====================================================================================================
+// MadgwickAHRS.c
+//=====================================================================================================
+//
+// Implementation of Madgwick's IMU and AHRS algorithms.
+// See: http://www.x-io.co.uk/node/8#open_source_ahrs_and_imu_algorithms
+//
+// Date			Author          Notes
+// 29/09/2011	SOH Madgwick    Initial release
+// 02/10/2011	SOH Madgwick	Optimised for reduced CPU load
+// 19/02/2012	SOH Madgwick	Magnetometer measurement is normalised
+//
+//=====================================================================================================
+
+
+
+
 #include <MadgwickAHRS.h>
 #include <Time.h>
 
@@ -44,9 +95,6 @@ volatile float q0 = 1.0f, q1 = 0.0f, q2 = 0.0f, q3 = 0.0f;	// quaternion of sens
 // Function declarations
 
 float invSqrt(float x);
-
-
-
 
 
 
@@ -220,12 +268,14 @@ void MadgwickAHRSupdate(float gx, float gy, float gz, float ax, float ay, float 
 float phi = atan2(2*((q2*q3)-(q0*q1)),2*((q0*q0)+(q3*q3))-1);
 float theta = -asin((2*q1*q3)+(2*q0*q2));
 float psi = atan2(2*((q1*q2)-(q0*q3)),2*((q0*q0)+(q1*q1))-1);
-//Serial.println(kalman(phi));
+
+
 Serial.print((phi*180/PI),DEC);
 Serial.print("\t");
 Serial.print((psi*180/PI),DEC);
 Serial.print("\t");
 Serial.println((theta*180/PI),DEC);
+
 }
 
 
